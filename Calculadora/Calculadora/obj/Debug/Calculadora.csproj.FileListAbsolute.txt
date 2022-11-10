@@ -9,3 +9,14 @@ D:\Facultad\TercerSemestre\calculadora\Calculadora\Calculadora\obj\Debug\Calcula
 D:\Facultad\TercerSemestre\calculadora\Calculadora\Calculadora\obj\Debug\Calculadora.csproj.CoreCompileInputs.cache
 D:\Facultad\TercerSemestre\calculadora\Calculadora\Calculadora\obj\Debug\Calculadora.exe
 D:\Facultad\TercerSemestre\calculadora\Calculadora\Calculadora\obj\Debug\Calculadora.pdb
+E:\Descargas\Programacion\INTJ_WS_TUP\Calculadora-\Calculadora\Calculadora\bin\Debug\Calculadora.exe.config
+E:\Descargas\Programacion\INTJ_WS_TUP\Calculadora-\Calculadora\Calculadora\bin\Debug\Calculadora.exe
+E:\Descargas\Programacion\INTJ_WS_TUP\Calculadora-\Calculadora\Calculadora\bin\Debug\Calculadora.pdb
+E:\Descargas\Programacion\INTJ_WS_TUP\Calculadora-\Calculadora\Calculadora\obj\Debug\Calculadora.csproj.AssemblyReference.cache
+E:\Descargas\Programacion\INTJ_WS_TUP\Calculadora-\Calculadora\Calculadora\obj\Debug\Calculadora.csproj.SuggestedBindingRedirects.cache
+E:\Descargas\Programacion\INTJ_WS_TUP\Calculadora-\Calculadora\Calculadora\obj\Debug\Calculadora.Form1.resources
+E:\Descargas\Programacion\INTJ_WS_TUP\Calculadora-\Calculadora\Calculadora\obj\Debug\Calculadora.Properties.Resources.resources
+E:\Descargas\Programacion\INTJ_WS_TUP\Calculadora-\Calculadora\Calculadora\obj\Debug\Calculadora.csproj.GenerateResource.cache
+E:\Descargas\Programacion\INTJ_WS_TUP\Calculadora-\Calculadora\Calculadora\obj\Debug\Calculadora.csproj.CoreCompileInputs.cache
+E:\Descargas\Programacion\INTJ_WS_TUP\Calculadora-\Calculadora\Calculadora\obj\Debug\Calculadora.exe
+E:\Descargas\Programacion\INTJ_WS_TUP\Calculadora-\Calculadora\Calculadora\obj\Debug\Calculadora.pdb

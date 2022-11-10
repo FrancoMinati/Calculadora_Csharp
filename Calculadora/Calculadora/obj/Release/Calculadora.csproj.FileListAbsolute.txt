@@ -1,0 +1,11 @@
+E:\Descargas\Programacion\INTJ_WS_TUP\Calculadora-\Calculadora\Calculadora\bin\Release\Calculadora.exe.config
+E:\Descargas\Programacion\INTJ_WS_TUP\Calculadora-\Calculadora\Calculadora\bin\Release\Calculadora.exe
+E:\Descargas\Programacion\INTJ_WS_TUP\Calculadora-\Calculadora\Calculadora\bin\Release\Calculadora.pdb
+E:\Descargas\Programacion\INTJ_WS_TUP\Calculadora-\Calculadora\Calculadora\obj\Release\Calculadora.csproj.AssemblyReference.cache
+E:\Descargas\Programacion\INTJ_WS_TUP\Calculadora-\Calculadora\Calculadora\obj\Release\Calculadora.csproj.SuggestedBindingRedirects.cache
+E:\Descargas\Programacion\INTJ_WS_TUP\Calculadora-\Calculadora\Calculadora\obj\Release\Calculadora.Form1.resources
+E:\Descargas\Programacion\INTJ_WS_TUP\Calculadora-\Calculadora\Calculadora\obj\Release\Calculadora.Properties.Resources.resources
+E:\Descargas\Programacion\INTJ_WS_TUP\Calculadora-\Calculadora\Calculadora\obj\Release\Calculadora.csproj.GenerateResource.cache
+E:\Descargas\Programacion\INTJ_WS_TUP\Calculadora-\Calculadora\Calculadora\obj\Release\Calculadora.csproj.CoreCompileInputs.cache
+E:\Descargas\Programacion\INTJ_WS_TUP\Calculadora-\Calculadora\Calculadora\obj\Release\Calculadora.exe
+E:\Descargas\Programacion\INTJ_WS_TUP\Calculadora-\Calculadora\Calculadora\obj\Release\Calculadora.pdb

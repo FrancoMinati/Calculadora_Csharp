@@ -42,7 +42,7 @@ public class Operacion
     public string Operador { get; set; }
     public Operacion NumeroDerecho { get; set; }
 
-    private Regex sumaResta = new Regex("[+-]");
+    private Regex sumaResta = new Regex("(?<=[0-9])([+-]+)(?=[0-9]+)");
     private Regex multiplicacionDivision = new Regex("[*/]");
 
     public void Parse(string equation)
@@ -50,7 +50,12 @@ public class Operacion
     {
         
        //Busca el operador usando el regex, priorizando suma y resta
-        var operatorLocation =sumaResta.Match(equation);
+        var operatorLocation = sumaResta.Match(equation).Groups[1];
+        if(operatorLocation.Value.Length > 1)
+        {
+            Parse(Regex.Replace(equation, "(?<=[0-9])([+-]+)(?=[0-9]+)", "-"));
+            return;
+        }
         //Si no encuentra con suma y resta busca mult y div
         if (!operatorLocation.Success)
         {
