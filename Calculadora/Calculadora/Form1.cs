@@ -125,58 +125,101 @@ namespace Calculadora
 
         private void button_result_Click(object sender, EventArgs e)
         {
-            String cuenta = txtResultado.Text;
-            List<double> resultados = new List<double>();
-           
-            Calc _calculator = new Calc();
-            String nuevoR;
-            if (cuenta.Contains('(') || cuenta.Contains(')'))
+            try
             {
-                Console.WriteLine("Ecuacion con parentesis");
-                if (validarEcuacion(cuenta))
+                String cuenta = txtResultado.Text;
+                List<double> resultados = new List<double>();
+                //Para cadenas con negativo en algun lado
+                Regex negativo = new Regex(@"(-[\d]+)");
+                //Para cadenas con negativo al principio
+                Regex negativoComienzo = new Regex(@"^(-[\d]+)");
+                //Regex varios para esto *aca
+                Regex prueba = new Regex(@"([\+\-\*\/]\(-\d*\))");
+                Regex p_suma = new Regex(@"([\+]\(-)");
+                Regex p_resta = new Regex(@"([\-]\(-)");
+
+                //Instancio una calculadora
+                Calc _calculator = new Calc();
+
+                
+                //En teoria esto altera la cuenta para q cuando hayan negativos seguidos de sumas y restas se cambien directamente *aca
+                foreach (Match m in prueba.Matches(cuenta))
                 {
-                    
-                    separar_en_partes(cuenta);
-                    foreach (String parte in partes_de_ecuacion)
+                    if (p_suma.IsMatch(Convert.ToString(m)))
                     {
-                        Console.WriteLine(parte);
+                        String valor = Convert.ToString(operandos.Match(Convert.ToString(m)));
+                        cuenta = cuenta.Replace(Convert.ToString(m), valor);
                     }
-                        List<String> quita_parentesis = new List<String>();
-                    double resultado = 0;
-                    int i = 0;
+                    if (p_resta.IsMatch(Convert.ToString(m)))
+                    {
+                        String valor = Convert.ToString(operandos.Match(Convert.ToString(m)));
+                        cuenta = cuenta.Replace(Convert.ToString(m), "+" + valor.Substring(1));
+                    }
+                }
+                //Falta la parte para las multiplicaciones y divisiones en base a esto
+                Console.WriteLine(cuenta);
+                //Si la cuenta tiene parentesis que entre a los casos para parentesis, sino que se resuelva normal
+                if (cuenta.Contains('(') || cuenta.Contains(')'))
+                {
+                    Console.WriteLine("Ecuacion con parentesis");
+                    if (validarEcuacion(cuenta))
+                    {
+                        //Separo los terminos 
+                        separar_en_partes(cuenta);
+                        /*foreach (String parte in partes_de_ecuacion){Console.WriteLine(parte);}*/
+                        double resultado = 0;
+                        int i = 0;
+                        //Itero para cada parte
                         foreach (String parte in partes_de_ecuacion)
                         {
-                        
-                        //Copio las partes para poder borrar los parentesis
-                        quita_parentesis.Add(parte);
-                        //Guardo los resultados para despues reemplazarlos
-                        resultados.Add(_calculator.Solve(remover_parentesis(parte)));
-                        //Hago el reemplazo en la cuenta
-                        cuenta = cuenta.Replace(parte, Convert.ToString(resultados[i]));
-                        Console.WriteLine("cuenta modificada: " + cuenta);
-                        i++;
+                            Console.WriteLine("parte de ecuacion: " +parte);
+                            
+                            if (negativoComienzo.IsMatch(parte))
+                            {
+                                resultados.Add(double.Parse(remover_parentesis(parte)));
+                                cuenta = cuenta.Replace(parte, Convert.ToString(resultados[i]));
+                            }
+                            else
+                            {
+                                
+                                //Guardo los resultados para despues reemplazarlos
+                                resultados.Add(_calculator.Solve(remover_parentesis(parte)));
+                                //Hago el reemplazo en la cuenta
+                                cuenta = cuenta.Replace(parte, Convert.ToString(resultados[i]));
+                            }
+
+                            Console.WriteLine("cuenta modificada: " + cuenta);
+                            i++;
 
                         }
-                   
-                       
+
+
                         resultado = _calculator.Solve(remover_parentesis(cuenta));
-                    
-                    
-                    Console.WriteLine("Resultado: " + resultado);
+
+
+                        Console.WriteLine("Resultado: " + resultado);
+                    }
+                    else
+                    {
+                        Console.WriteLine("Ecuación invalida");
+                        txtResultado.Text = "Ecuación invalida";
+                    }
                 }
                 else
                 {
-                    Console.WriteLine("Ecuación invalida");
-                    txtResultado.Text = "Ecuación invalida";
+                    Console.WriteLine("Ecuacion sin parentesis");
+
+                    double resultado = _calculator.Solve(cuenta);
+                    Console.WriteLine("Resultado: " + resultado);
+
+
                 }
-            }
-            else
+            } catch (Exception)
             {
-                Console.WriteLine("Ecuacion sin parentesis");
-                double resultado = _calculator.Solve(cuenta);
-                Console.WriteLine("Resultado: " + resultado);
+                txtResultado.Text = "Error";
             }
         }
+        //Cuenta la cantidad de parentesis que hay, mientras que sea par
         private bool validarEcuacion(String cuenta)
         {
             char p_i = '(';
@@ -214,6 +257,7 @@ namespace Calculadora
         }
         private List<String> separar_en_partes(String cuenta)
         {
+            
             // Limpio la lista por cada operacion nueva
             partes_de_ecuacion.Clear();
             // Si la operacion tiene parentesis al inicio y al final, los remuevo ya que da igual si los tiene
