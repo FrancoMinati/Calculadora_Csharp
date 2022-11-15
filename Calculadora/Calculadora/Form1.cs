@@ -213,10 +213,7 @@ namespace Calculadora
 
                         }
 
-
                         resultado = _calculator.Solve(remover_parentesis(cuenta));
-
-
                         Console.WriteLine("Resultado: " + resultado);
                     }
                     else
@@ -233,11 +230,8 @@ namespace Calculadora
                     double resultado;
                     if (cuenta[0].Equals('-'))
                     {
-                        
                          resultado = _calculator.Solve(cuenta);
                          Console.WriteLine("Resultado: " + resultado);
-                            
-                              
                     }
                     else
                     {
@@ -271,6 +265,7 @@ namespace Calculadora
             }
             return contador_pd == contador_pi ? true : false;
         }
+        //Cuenta la cantidad de parentesis
         private int contar_parentesis(String cuenta)
         {
             char p_i = '(';

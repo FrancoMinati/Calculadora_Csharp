@@ -22,7 +22,7 @@ public class Calc
         double result;
         if (operandos.Matches(equation).Count == 1)
         {
-           
+           //Si solo hay un operando lo devuelve, esto es para prevenir el fallo con los negativos
             result = Convert.ToDouble(equation); 
         }
         else { 
@@ -64,12 +64,15 @@ public class Operacion
         {
             //Suma Resta y Resta Suma
             Regex sRyRs = new Regex(@"(?<=[0-9])([+-]+)(?=[0-9]+)");
+            //Caso Resta Resta 
             Regex RR= new Regex(@"(?<=[0-9])([--]+)(?=[0-9]+)");
+            //Si encuentra un SUMA RESTA O RESTA SUMA MODIFICA LA ECUACION PARA QUE QUEDE COMO -
             if (sRyRs.IsMatch(equation))
             {
                 Parse(sRyRs.Replace(equation, "-",1));
                 return;
             }
+            //Si encuentra un RESTA RESTA MODIFICA LA ECUACION PARA QUE QUEDE COMO +
             if (RR.IsMatch(equation))
             {
                 Parse(sRyRs.Replace(equation, "+", 1));
@@ -121,6 +124,7 @@ public class Operacion
 
     public double Resolver()
     {
+        //Segun el operador asignado resuelve
         switch (Operador)
         {
             case "v":
