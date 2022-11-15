@@ -122,7 +122,10 @@ namespace Calculadora
                 }
             }
         }
-
+        /* Falta Fixear casos:
+         * primer numero negativo ej: -9 + 6  o   (-9 + 6)
+         * multiplicar por un negativo 9*(-6) y (-9)*(*6) 
+         */
         private void button_result_Click(object sender, EventArgs e)
         {
             try
@@ -143,7 +146,7 @@ namespace Calculadora
 
                 
                 //En teoria esto altera la cuenta para q cuando hayan negativos seguidos de sumas y restas se cambien directamente *aca
-                foreach (Match m in prueba.Matches(cuenta))
+                /*foreach (Match m in prueba.Matches(cuenta))
                 {
                     if (p_suma.IsMatch(Convert.ToString(m)))
                     {
@@ -155,9 +158,17 @@ namespace Calculadora
                         String valor = Convert.ToString(operandos.Match(Convert.ToString(m)));
                         cuenta = cuenta.Replace(Convert.ToString(m), "+" + valor.Substring(1));
                     }
-                }
+                }*/
                 //Falta la parte para las multiplicaciones y divisiones en base a esto
                 Console.WriteLine(cuenta);
+                Regex casoMalo = new Regex(@"(\(\([\d]*\)\))");
+                if (casoMalo.IsMatch(cuenta))
+                {
+                    cuenta = cuenta.Replace("(","");
+                    cuenta = cuenta.Replace(")", "");
+                    Console.WriteLine(cuenta);
+                    
+                }
                 //Si la cuenta tiene parentesis que entre a los casos para parentesis, sino que se resuelva normal
                 if (cuenta.Contains('(') || cuenta.Contains(')'))
                 {
@@ -189,6 +200,15 @@ namespace Calculadora
                             }
 
                             Console.WriteLine("cuenta modificada: " + cuenta);
+                            Regex sRyRs = new Regex(@"(?<=[0-9])([+-]+)(?=[0-9]+)");
+                            Regex RR = new Regex(@"(?<=[0-9])([--]+)(?=[0-9]+)");
+                            // Caso a - -b lo convierte en a+b
+                            if (RR.IsMatch(cuenta))
+                            {
+                                
+                                cuenta=cuenta.Replace("--", "+");
+                                Console.WriteLine("a: " + cuenta);
+                            }
                             i++;
 
                         }
@@ -208,15 +228,27 @@ namespace Calculadora
                 else
                 {
                     Console.WriteLine("Ecuacion sin parentesis");
-
-                    double resultado = _calculator.Solve(cuenta);
-                    Console.WriteLine("Resultado: " + resultado);
-
+                    //Regex Mult o Division negativos
+                    Regex modNegativo = new Regex(@"(-[\d]+[\*\/][\d]+){1}");
+                    double resultado;
+                    if (cuenta[0].Equals('-'))
+                    {
+                        
+                         resultado = _calculator.Solve(cuenta);
+                         Console.WriteLine("Resultado: " + resultado);
+                            
+                              
+                    }
+                    else
+                    {
+                        resultado = _calculator.Solve(cuenta);
+                        Console.WriteLine("Resultado: " + resultado);
+                    }
 
                 }
             } catch (Exception)
             {
-                txtResultado.Text = "Error";
+                txtResultado.Text = "Syntax error";
             }
         }
         //Cuenta la cantidad de parentesis que hay, mientras que sea par

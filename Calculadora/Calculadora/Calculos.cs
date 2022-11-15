@@ -8,8 +8,7 @@ using System.Threading.Tasks;
 
 public class Calc
 {
-
-
+    public Regex operandos = new Regex(@"(-?[1-9]\d*)");
     public Regex hayNegativo = new Regex(@"[\+\-\/\*\^\%]{1}[\-]");
     public Regex Resta = new Regex("[-]");
     public double Solve(string equation)
@@ -20,7 +19,17 @@ public class Calc
         Operacion operation = new Operacion();
        
         operation.Parse(equation);
-        double result = operation.Resolver();
+        double result;
+        if (operandos.Matches(equation).Count == 1)
+        {
+           
+            result = Convert.ToDouble(equation); 
+        }
+        else { 
+        
+            result = operation.Resolver();
+        }
+        
         return result;
         
         
@@ -53,8 +62,20 @@ public class Operacion
         var operatorLocation = sumaResta.Match(equation).Groups[1];
         if(operatorLocation.Value.Length > 1)
         {
-            Parse(Regex.Replace(equation, "(?<=[0-9])([+-]+)(?=[0-9]+)", "-"));
-            return;
+            //Suma Resta y Resta Suma
+            Regex sRyRs = new Regex(@"(?<=[0-9])([+-]+)(?=[0-9]+)");
+            Regex RR= new Regex(@"(?<=[0-9])([--]+)(?=[0-9]+)");
+            if (sRyRs.IsMatch(equation))
+            {
+                Parse(sRyRs.Replace(equation, "-",1));
+                return;
+            }
+            if (RR.IsMatch(equation))
+            {
+                Parse(sRyRs.Replace(equation, "+", 1));
+                return;
+            }
+
         }
         //Si no encuentra con suma y resta busca mult y div
         if (!operatorLocation.Success)
@@ -68,7 +89,7 @@ public class Operacion
             //Si encuentra el caso entra aca y tira el mensaje
             Console.WriteLine("entre : "+ equation.Remove(Resta.Match(equation).Index, 1));
             //le borra la primera parte a la ecuacion para que no se rompa porque analiza con los regex
-            equation = equation.Remove(Resta.Match(equation).Index, 1);
+            //equation = equation.Remove(Resta.Match(equation).Index, 1);
             //Mismo proceso que si la cuenta no tuviera esos casos de *(- etc
             operatorLocation = sumaResta.Match(equation);
 
@@ -105,16 +126,21 @@ public class Operacion
             case "v":
                 break;
             case "+":
+                
                 result = NumeroIzquierdo.Resolver() + NumeroDerecho.Resolver();
+                Console.WriteLine("suma: " + result);
                 break;
             case "-":
                 result = NumeroIzquierdo.Resolver() - NumeroDerecho.Resolver();
+                Console.WriteLine("resta: " + result);
                 break;
             case "*":
                 result = NumeroIzquierdo.Resolver() * NumeroDerecho.Resolver();
+                Console.WriteLine("multiplicacion: " + result);
                 break;
             case "/":
                 result = NumeroIzquierdo.Resolver() / NumeroDerecho.Resolver();
+                Console.WriteLine("division: " + result);
                 break;
             default:
                 throw new Exception("Call Parse first.");
