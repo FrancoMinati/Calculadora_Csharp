@@ -20,6 +20,7 @@ public class Calc
        
         operation.Parse(equation);
         double result;
+        
         if (operandos.Matches(equation).Count == 1)
         {
            //Si solo hay un operando lo devuelve, esto es para prevenir el fallo con los negativos

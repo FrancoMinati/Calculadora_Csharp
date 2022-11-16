@@ -215,7 +215,9 @@ namespace Calculadora
 
                         resultado = _calculator.Solve(remover_parentesis(cuenta));
                         Console.WriteLine("Resultado: " + resultado);
-                        
+                        txtResultado.Text = Convert.ToString(resultado);
+
+
                     }
                     else
                     {
@@ -233,14 +235,18 @@ namespace Calculadora
                     {
                          resultado = _calculator.Solve(cuenta);
                          Console.WriteLine("Resultado: " + resultado);
+                         txtResultado.Text = Convert.ToString(resultado);
+
                     }
                     else
                     {
                         resultado = _calculator.Solve(cuenta);
                         Console.WriteLine("Resultado: " + resultado);
+                        txtResultado.Text = Convert.ToString(resultado);
                     }
 
                 }
+                
             } catch (Exception)
             {
                 txtResultado.Text = "Syntax error";
