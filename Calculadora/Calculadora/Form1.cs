@@ -215,6 +215,7 @@ namespace Calculadora
 
                         resultado = _calculator.Solve(remover_parentesis(cuenta));
                         Console.WriteLine("Resultado: " + resultado);
+                        
                     }
                     else
                     {
@@ -310,7 +311,7 @@ namespace Calculadora
             if (cuenta.Contains("("))
             {
                 cuenta = cuenta.Remove(0, 1);
-                cuenta = cuenta.Remove(cuenta.Length - 1, 1);
+                cuenta = cuenta.Remove(cuenta.LastIndexOf(")"), 1);
             }
             return cuenta;
 

@@ -124,7 +124,7 @@ public class Operacion
 
     public double Resolver()
     {
-        //Segun el operador asignado resuelve
+
         switch (Operador)
         {
             case "v":

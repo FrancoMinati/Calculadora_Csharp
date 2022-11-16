@@ -298,7 +298,7 @@
             this.Controls.Add(this.txtResultado);
             this.Font = new System.Drawing.Font("Microsoft Sans Serif", 8F);
             this.Name = "Form1";
-            this.Text = "Form1";
+            this.Text = "Calculadora";
             this.ResumeLayout(false);
             this.PerformLayout();
 
