@@ -32,11 +32,7 @@ public class Calc
         }
         
         return result;
-        
-        
-        
-       
-        
+
         
     }
 }
@@ -52,8 +48,8 @@ public class Operacion
     public string Operador { get; set; }
     public Operacion NumeroDerecho { get; set; }
 
-    private Regex sumaResta = new Regex("(?<=[0-9])([+-]+)(?=[0-9]+)");
-    private Regex multiplicacionDivision = new Regex("[*/]");
+    private Regex sumaResta = new Regex("(?<=[0-9])([+-]+)(?=[0-9]+)", RegexOptions.RightToLeft);
+    private Regex multiplicacionDivision = new Regex("[*/]", RegexOptions.RightToLeft);
 
     public void Parse(string equation)
 

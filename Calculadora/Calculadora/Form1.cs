@@ -34,7 +34,20 @@ namespace Calculadora
             var boton = ((Button)sender);
             if (txtResultado.Text == "0")
                 txtResultado.Text = "";
-            txtResultado.Text += boton.Text;
+            if (txtResultado.Text.Equals(""))
+            {
+                txtResultado.Text += boton.Text;
+            }
+            else
+            {
+                if (!txtResultado.Text[txtResultado.Text.Length - 1].Equals(')'))
+                {
+                    txtResultado.Text += boton.Text;
+
+
+                }
+            }
+            
 
         }
 
@@ -62,7 +75,8 @@ namespace Calculadora
                 }
                 else
                 {
-                    txtResultado.Text = txtResultado.Text.Replace(caracter, Convert.ToChar(boton.Text));
+                    txtResultado.Text = txtResultado.Text.TrimEnd(caracter);
+                    txtResultado.Text += boton.Text;
 
                 }
             }
@@ -134,6 +148,7 @@ namespace Calculadora
                 List<double> resultados = new List<double>();
                 //Para cadenas con negativo en algun lado
                 Regex negativo = new Regex(@"(-[\d]+)");
+                
                 //Para cadenas con negativo al principio
                 Regex negativoComienzo = new Regex(@"^(-[\d]+)");
                 //Regex varios para esto *aca
@@ -316,7 +331,7 @@ namespace Calculadora
         {
             if (cuenta.Contains("("))
             {
-                cuenta = cuenta.Remove(0, 1);
+                cuenta = cuenta.Remove(cuenta.IndexOf("("), 1);
                 cuenta = cuenta.Remove(cuenta.LastIndexOf(")"), 1);
             }
             return cuenta;
