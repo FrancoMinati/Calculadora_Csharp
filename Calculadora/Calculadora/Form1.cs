@@ -1,14 +1,7 @@
 ﻿using System;
-using System.Collections;
 using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
 using System.Linq;
-using System.Runtime.InteropServices;
-using System.Text;
 using System.Text.RegularExpressions;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 
 
@@ -25,7 +18,7 @@ namespace Calculadora
         {
             InitializeComponent();
         }
-        
+
 
 
 
@@ -47,7 +40,7 @@ namespace Calculadora
 
                 }
             }
-            
+
 
         }
 
@@ -108,7 +101,7 @@ namespace Calculadora
             {
                 string n_anterior = "" + txtResultado.Text[txtResultado.Text.Length - 1];
                 bool is_operator = operadores.IsMatch(n_anterior);
-                
+
                 if (is_operator || n_anterior.Equals("("))
                 {
                     txtResultado.Text += "(";
@@ -148,7 +141,7 @@ namespace Calculadora
                 List<double> resultados = new List<double>();
                 //Para cadenas con negativo en algun lado
                 Regex negativo = new Regex(@"(-[\d]+)");
-                
+
                 //Para cadenas con negativo al principio
                 Regex negativoComienzo = new Regex(@"^(-[\d]+)");
                 //Regex varios para esto *aca
@@ -159,30 +152,15 @@ namespace Calculadora
                 //Instancio una calculadora
                 Calc _calculator = new Calc();
 
-                
-                //En teoria esto altera la cuenta para q cuando hayan negativos seguidos de sumas y restas se cambien directamente *aca
-                /*foreach (Match m in prueba.Matches(cuenta))
-                {
-                    if (p_suma.IsMatch(Convert.ToString(m)))
-                    {
-                        String valor = Convert.ToString(operandos.Match(Convert.ToString(m)));
-                        cuenta = cuenta.Replace(Convert.ToString(m), valor);
-                    }
-                    if (p_resta.IsMatch(Convert.ToString(m)))
-                    {
-                        String valor = Convert.ToString(operandos.Match(Convert.ToString(m)));
-                        cuenta = cuenta.Replace(Convert.ToString(m), "+" + valor.Substring(1));
-                    }
-                }*/
                 //Falta la parte para las multiplicaciones y divisiones en base a esto
                 Console.WriteLine(cuenta);
                 Regex casoMalo = new Regex(@"(\(\([\d]*\)\))");
                 if (casoMalo.IsMatch(cuenta))
                 {
-                    cuenta = cuenta.Replace("(","");
+                    cuenta = cuenta.Replace("(", "");
                     cuenta = cuenta.Replace(")", "");
                     Console.WriteLine(cuenta);
-                    
+
                 }
                 //Si la cuenta tiene parentesis que entre a los casos para parentesis, sino que se resuelva normal
                 if (cuenta.Contains('(') || cuenta.Contains(')'))
@@ -190,16 +168,18 @@ namespace Calculadora
                     Console.WriteLine("Ecuacion con parentesis");
                     if (validarEcuacion(cuenta))
                     {
+                        double resultado = 0;
                         //Separo los terminos 
                         separar_en_partes(cuenta);
                         /*foreach (String parte in partes_de_ecuacion){Console.WriteLine(parte);}*/
-                        double resultado = 0;
+                        resultados.Clear();
                         int i = 0;
                         //Itero para cada parte
+
                         foreach (String parte in partes_de_ecuacion)
                         {
-                            Console.WriteLine("parte de ecuacion: " +parte);
-                            
+                            Console.WriteLine("parte de ecuacion: " + parte);
+
                             if (negativoComienzo.IsMatch(parte))
                             {
                                 resultados.Add(double.Parse(remover_parentesis(parte)));
@@ -207,30 +187,68 @@ namespace Calculadora
                             }
                             else
                             {
-                                
+
                                 //Guardo los resultados para despues reemplazarlos
                                 resultados.Add(_calculator.Solve(remover_parentesis(parte)));
                                 //Hago el reemplazo en la cuenta
+                                Console.WriteLine("Reemplazo: " + parte + " " + Convert.ToString(resultados[i]));
                                 cuenta = cuenta.Replace(parte, Convert.ToString(resultados[i]));
                             }
 
                             Console.WriteLine("cuenta modificada: " + cuenta);
                             Regex sRyRs = new Regex(@"(?<=[0-9])([+-]+)(?=[0-9]+)");
-                            Regex RR = new Regex(@"(?<=[0-9])([--]+)(?=[0-9]+)");
+                            Regex RR = new Regex(@"(?<=[0-9])([--]{2})(?=[0-9]+)");
                             // Caso a - -b lo convierte en a+b
                             if (RR.IsMatch(cuenta))
                             {
-                                
-                                cuenta=cuenta.Replace("--", "+");
+
+                                cuenta = cuenta.Replace("--", "+");
                                 Console.WriteLine("a: " + cuenta);
                             }
                             i++;
 
                         }
+                        separar_en_partes(cuenta);
+                        if (partes_de_ecuacion.Count > 1)
+                        {
+                            foreach (String parte in partes_de_ecuacion)
+                            {
+                                Console.WriteLine("parte de ecuacion: " + parte);
 
+                                if (negativoComienzo.IsMatch(parte))
+                                {
+                                    resultados.Add(double.Parse(remover_parentesis(parte)));
+                                    cuenta = cuenta.Replace(parte, Convert.ToString(resultados[i]));
+                                }
+                                else
+                                {
+
+                                    //Guardo los resultados para despues reemplazarlos
+                                    resultados.Add(_calculator.Solve(remover_parentesis(parte)));
+                                    //Hago el reemplazo en la cuenta
+                                    Console.WriteLine("Reemplazo: " + parte + " " + Convert.ToString(resultados[i]));
+                                    cuenta = cuenta.Replace(parte, Convert.ToString(resultados[i]));
+                                }
+
+                                Console.WriteLine("cuenta modificada: " + cuenta);
+                                Regex sRyRs = new Regex(@"(?<=[0-9])([+-]+)(?=[0-9]+)");
+                                Regex RR = new Regex(@"(?<=[0-9])([--]{2})(?=[0-9]+)");
+                                // Caso a - -b lo convierte en a+b
+                                if (RR.IsMatch(cuenta))
+                                {
+
+                                    cuenta = cuenta.Replace("--", "+");
+                                    Console.WriteLine("a: " + cuenta);
+                                }
+                                i++;
+
+                            }
+                        }
                         resultado = _calculator.Solve(remover_parentesis(cuenta));
                         Console.WriteLine("Resultado: " + resultado);
                         txtResultado.Text = Convert.ToString(resultado);
+
+
 
 
                     }
@@ -248,9 +266,9 @@ namespace Calculadora
                     double resultado;
                     if (cuenta[0].Equals('-'))
                     {
-                         resultado = _calculator.Solve(cuenta);
-                         Console.WriteLine("Resultado: " + resultado);
-                         txtResultado.Text = Convert.ToString(resultado);
+                        resultado = _calculator.Solve(cuenta);
+                        Console.WriteLine("Resultado: " + resultado);
+                        txtResultado.Text = Convert.ToString(resultado);
 
                     }
                     else
@@ -261,9 +279,11 @@ namespace Calculadora
                     }
 
                 }
-                
-            } catch (Exception)
+
+            }
+            catch (Exception)
             {
+
                 txtResultado.Text = "Syntax error";
             }
         }
@@ -292,12 +312,12 @@ namespace Calculadora
         {
             char p_i = '(';
             char p_d = ')';
-            
+
             int contador = 0;
-            
+
             foreach (char p in cuenta)
             {
-                if (p.Equals(p_i)||p.Equals(p_d))
+                if (p.Equals(p_i) || p.Equals(p_d))
                 {
                     contador++;
                 }
@@ -306,26 +326,20 @@ namespace Calculadora
         }
         private List<String> separar_en_partes(String cuenta)
         {
-            
+
             // Limpio la lista por cada operacion nueva
             partes_de_ecuacion.Clear();
-            // Si la operacion tiene parentesis al inicio y al final, los remuevo ya que da igual si los tiene
-            if (cuenta[0]=='(' && cuenta[cuenta.Length - 1] == ')' && contar_parentesis(cuenta)==2)
-            {
-                
-                partes_de_ecuacion.Add(cuenta);
-                return partes_de_ecuacion;
-            }
+
             Regex n = new Regex(@"(\({2}[\d\+\-\/\*\^\%]+[\d+]*\){2})");
-            foreach(Match m in operacion_unitaria.Matches(cuenta))
+            foreach (Match m in operacion_unitaria.Matches(cuenta))
             {
                 partes_de_ecuacion.Add(Convert.ToString(m));
-               
-                
+
+
             }
-            
+
             return partes_de_ecuacion;
-            
+
         }
         private String remover_parentesis(String cuenta)
         {
@@ -337,7 +351,7 @@ namespace Calculadora
             return cuenta;
 
         }
-       
+
 
     }
 }
