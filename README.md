@@ -20,5 +20,6 @@ _Esta es una versión simplificada del funcionamiento del arbol._
 - Git para control de versiones
 
 ### Ejecutable
-Aquí hay un link para descargar el ejecutable de la misma:\ 
+Aquí hay un link para descargar el ejecutable de la misma:
+
 https://mega.nz/file/mFATiSba#EIHFloe2XSJuhLmV86D-0TTEl2izJCjEZ96LKTXNkmE
